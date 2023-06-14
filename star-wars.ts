@@ -5,16 +5,18 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-function getData(type : string, num : number) {
+async function getData(type : string, num : number) {
     type = type.toLowerCase();
-    return fetch(`https://swapi.dev/api/${type}/${num}/`);
+    var data = await fetch(`https://swapi.dev/api/${type}/${num}/`);
+    data = await data.json();
+    return data;
 }
 
 async function getCategory() : Promise<string> {
     const answer = await rl.question('Enter category (people, planets, starships, etc.) ', {
         signal: AbortSignal.timeout(20_000) // 20s timeout
     });
-    return answer;
+    return answer.toLowerCase();
 }
 
 async function getNumber() : Promise<string> {
@@ -30,7 +32,6 @@ async function main() {
         var num = await getNumber();
         rl.close();
         var response = await getData(category, parseInt(num));
-        response = await response.json();
         console.log(response);
     }
     catch (error) {
