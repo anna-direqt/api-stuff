@@ -1,4 +1,6 @@
 import * as readline from "readline/promises";
+const link =
+  "https://7f25-2607-fb90-ec02-c197-4464-441d-109c-e067.ngrok-free.app";
 
 interface Book {
   id: string;
@@ -26,14 +28,11 @@ async function getBook(): Promise<Book> {
 }
 
 async function postBook(book: Book) {
-  await fetch(
-    "https://7f25-2607-fb90-ec02-c197-4464-441d-109c-e067.ngrok-free.app/books",
-    {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(book),
-    }
-  );
+  await fetch(`${link}/books`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(book),
+  });
 }
 
 async function getBookID(): Promise<string> {
@@ -44,29 +43,21 @@ async function getBookID(): Promise<string> {
 }
 
 async function deleteBook(bookID: string) {
-  await fetch(
-    `https://7f25-2607-fb90-ec02-c197-4464-441d-109c-e067.ngrok-free.app/books/${bookID}`,
-    {
-      method: "delete",
-    }
-  );
+  await fetch(`${link}/books/${bookID}`, {
+    method: "delete",
+  });
 }
 
 async function putBook(book: Book) {
-  await fetch(
-    `https://7f25-2607-fb90-ec02-c197-4464-441d-109c-e067.ngrok-free.app/books/${book.id}`,
-    {
-      method: "put",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(book),
-    }
-  );
+  await fetch(`${link}/books/${book.id}`, {
+    method: "put",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(book),
+  });
 }
 
 async function seeBooks() {
-  var data = await fetch(
-    "https://7f25-2607-fb90-ec02-c197-4464-441d-109c-e067.ngrok-free.app/books"
-  );
+  var data = await fetch(`${link}/books`);
   data = await data.json();
   console.log(data);
 }
